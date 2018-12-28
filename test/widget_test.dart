@@ -44,6 +44,16 @@ void main() {
     } 
   });
 
+
+  testWidgets('Shuffle test 2', (WidgetTester tester) async {        
+    const String value = "LaurentCouturier";
+    for (int x = 0; x < 20; x++)            
+    {
+      print(ArrayHelper.shuffle(value).map((x) => x.toString()).reduce((a, b) => "$a$b"));    
+    }
+    
+  });
+
   testWidgets('Sequence test 1', (WidgetTester tester) async {
 
       var result = Sequence.generate(1, (x) => x + 1).take(20).map((x) => x.toString()).reduce((a, b) => "$a$b");    
