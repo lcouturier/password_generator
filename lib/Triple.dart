@@ -1,4 +1,3 @@
-import 'package:hello_world/pair.dart';
 import 'package:password_generator/pair.dart';
 
 class Triple<T1, T2, T3> extends Pair<T1,T2> {

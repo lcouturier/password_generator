@@ -18,8 +18,8 @@ class CharType {
     static final CharType underline = CharType(256,"underline");
     static final CharType space = CharType(512,"space");
     
-    const CharType(this.code, this.label)
-
+    const CharType(this.code, this.label);
+    
     @override
     bool operator ==(o) => o is CharType && o.code == this.code;    
 

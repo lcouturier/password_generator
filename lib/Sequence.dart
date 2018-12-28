@@ -1,4 +1,4 @@
-import 'package:hello_world/pair.dart';
+import 'package:password_generator/pair.dart';
 
 class Sequence 
 {  
