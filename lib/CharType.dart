@@ -23,5 +23,21 @@ class CharType {
     @override
     bool operator ==(o) => o is CharType && o.code == this.code;    
 
+    @override
+    String toString() => "$code $label";
+
     const CharType(this.code, this.label);
+
+    static List<CharType> toList()=> [
+        accentuated,
+        brackets,
+        lower,
+        minus,
+        number,
+        punctuation,
+        space,
+        special,
+        underline,
+        upper
+    ];      
 }
