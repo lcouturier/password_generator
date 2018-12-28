@@ -20,7 +20,7 @@ class Password {
 
       return (int size, CharType type) {
 
-          var value = CharType.toList().where((x) => type & x).map((x) => d[x]).reduce((a, b) => "$a$b");          
+          var value = CharType.toList().where((x) => (type & x)).map((x) => d[x]).reduce((a, b) => "$a$b");          
           return ArrayHelper.shuffle(Iterable.generate(10).map((x) => ArrayHelper.shuffle(value).reduce((a, b) => "$a$b")).reduce((a, b) => "$a$b")).take(size).reduce((a, b) => "$a$b");              
       };
   }
@@ -35,7 +35,7 @@ class Password {
   static const numbers = '012345678901234567890123456789';
   static const punctuation = ',.;:?!';
   static const space = ' ';
-  static const specials = '@#&"\'§%£=+*/';
+  static const specials = '@#&"\'§%£=+*/|';
   static const underline = '_';
   static const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';  
 }

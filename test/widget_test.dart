@@ -66,11 +66,23 @@ void main() {
   testWidgets('Password test', (WidgetTester tester) async {
       for (int x = 0; x < 10; x++)            
       {
-        var result = await Password.of(16, CharType.lower);    
+        var result = Password.of(32, CharType.upper | CharType.lower | CharType.number | CharType.accentuated | CharType.punctuation);    
         print(result);
       }      
   });
 
+
+  testWidgets('CharType test 1', (WidgetTester tester) async {
+      CharType type = CharType.lower | CharType.upper;      
+
+      expect(type.code, 3);         
+  });
+
+  testWidgets('CharType test 2', (WidgetTester tester) async {
+      CharType type = CharType.lower | CharType.upper | CharType.number;
+
+      expect(type.code, 7);          
+  });
 
   testWidgets('Triple Test', (WidgetTester tester) async {
       var t = Triple.of(1,2,3);

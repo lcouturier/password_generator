@@ -18,7 +18,10 @@ class CharType {
     final String label;    
 
     @override
-    bool operator &(o) => o is CharType && (this.code & o.code) == this.code;    
+    bool operator &(o) => o is CharType && (this.code & o.code) == o.code;    
+
+    @override
+    CharType operator |(CharType o) => CharType(this.code | o.code, "***");    
 
     @override
     bool operator ==(o) => o is CharType && o.code == this.code;    
