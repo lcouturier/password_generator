@@ -1,10 +1,33 @@
 
 
 import 'package:password_generator/CharType.dart';
-
 import 'ArrayHelper.dart';
 
 class Password {
+  
+  static String Function(int, CharType) _ofCore() {
+      Map<CharType,String> d = new Map<CharType,String>();
+      d[CharType.accentuated] = accentuated;
+      d[CharType.brackets] = brackets;
+      d[CharType.lower] = lower;
+      d[CharType.minus] = minus;
+      d[CharType.number] = numbers;
+      d[CharType.punctuation] = punctuation;
+      d[CharType.special] = specials;
+      d[CharType.underline] = underline;
+      d[CharType.upper] = upper;      
+      d[CharType.space] = space;
+
+      return (int size, CharType type) {
+
+          var value = CharType.toList().where((x) => type & x).map((x) => d[x]).reduce((a, b) => "$a$b");          
+          return ArrayHelper.shuffle(Iterable.generate(10).map((x) => ArrayHelper.shuffle(value).reduce((a, b) => "$a$b")).reduce((a, b) => "$a$b")).take(size).reduce((a, b) => "$a$b");              
+      };
+  }
+
+  static String Function(int, CharType) get of => _ofCore();
+
+
   static const accentuated = 'éèà';  
   static const brackets = '()[]{}<>';
   static const lower = 'abcdefghijklmnopqrstuvwxyz';
@@ -12,36 +35,7 @@ class Password {
   static const numbers = '012345678901234567890123456789';
   static const punctuation = ',.;:?!';
   static const space = ' ';
-  static const specials = '@#&"§%£=+*/';
+  static const specials = '@#&"\'§%£=+*/';
   static const underline = '_';
-  static const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-  static String _getAll(List<String> items) {      
-      var all = items.reduce((a, b) => "$a$b");
-      return ArrayHelper.shuffle(all).reduce((a, b) => "$a$b");
-    }
-
-  static Future<String> of(int size, CharType value) async {                  
-      var items = new List<String>();
-      if (value & CharType.lower) {
-          items.add(lower);
-      }
-      if (value & CharType.upper) {
-          items.add(upper);
-      }
-      if (value & CharType.number) {
-          items.add(numbers);
-      }
-      if (value & CharType.special) {
-          items.add(specials);
-      }
-                  
-      var sb = new StringBuffer();
-      for (int x = 0; x < 10; x++)            
-      {        
-        sb.write(_getAll(items));          
-      }
-
-      return ArrayHelper.shuffle(sb.toString()).take(size).reduce((a, b) => "$a$b");      
-  }
+  static const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';  
 }
