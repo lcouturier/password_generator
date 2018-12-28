@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:password_generator/ArrayHelper.dart';
+import 'package:password_generator/CharType.dart';
 import 'package:password_generator/Password.dart';
 import 'package:password_generator/Sequence.dart';
 import 'package:password_generator/Triple.dart';

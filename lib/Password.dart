@@ -1,59 +1,21 @@
 
 
+import 'package:password_generator/CharType.dart';
+
 import 'ArrayHelper.dart';
 
-class CharType {
-    final int code;
-    final String label;    
-  
-    static final CharType none = CharType(0,"None");
-    static final CharType lower = CharType(1,"Lower");
-    static final CharType upper = CharType(2,"Upper");
-    static final CharType number = CharType(4,"Number");
-    static final CharType special = CharType(8,"Special");
-    static final CharType accentuated = CharType(16,"accentuated");
-    static final CharType punctuation = CharType(32,"punctuation");
-    static final CharType brackets = CharType(64,"brackets");
-    static final CharType minus = CharType(128,"minus");
-    static final CharType underline = CharType(256,"underline");
-    static final CharType space = CharType(512,"space");
-    
-    const CharType(this.code, this.label);
-    
-    @override
-    bool operator ==(o) => o is CharType && o.code == this.code;    
-
-    @override
-    bool operator &(o) => o is CharType && (this.code & o.code) == this.code;    
-
-    /*
-    static const Upper = 2;
-    static const Number = 4;
-    static const Special = 8;        
-    static const Accentuated = 16;        
-    static const Punctuation = 32;        
-    static const Brackets = 64;        
-    static const Minus = 128;        
-    static const Underline = 256;        
-    static const Space = 512;        
-    */
-
-    // static const All = Lower  | Upper | Number | Special | Accentuated | Punctuation | Brackets | Minus | Underline | Space;        
-}
-
 class Password {
-  static const lower = 'abcdefghijklmnopqrstuvwxyz';
-  static const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  static const numbers = '012345678901234567890123456789';
-  static const specials = '@#&"§%£=+*/';
   static const accentuated = 'éèà';  
-  static const punctuation = ',.;:?!';
   static const brackets = '()[]{}<>';
+  static const lower = 'abcdefghijklmnopqrstuvwxyz';
   static const minus = '-';
-  static const underline = '_';
+  static const numbers = '012345678901234567890123456789';
+  static const punctuation = ',.;:?!';
   static const space = ' ';
+  static const specials = '@#&"§%£=+*/';
+  static const underline = '_';
+  static const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
- 
   static String _getAll(List<String> items) {      
       var all = items.reduce((a, b) => "$a$b");
       return ArrayHelper.shuffle(all).reduce((a, b) => "$a$b");
