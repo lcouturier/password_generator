@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:convert' show json;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -21,8 +21,8 @@ class Translations {
 
   static Future<Translations> load(Locale locale) async {
     Translations translations = new Translations(locale);
-    String jsonContent = await rootBundle.loadString("locale/i18n_${locale.languageCode}.json");
-    _localizedValues = json.decode(jsonContent);
+    String content = await rootBundle.loadString("locale/i18n_${locale.languageCode}.json");
+    _localizedValues = json.decode(content);
     return translations;
   }
 

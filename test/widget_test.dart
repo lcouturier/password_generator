@@ -13,6 +13,7 @@ import 'package:password_generator/Password.dart';
 import 'package:password_generator/Sequence.dart';
 import 'package:password_generator/Triple.dart';
 import 'package:password_generator/main.dart';
+import 'package:password_generator/pair.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
@@ -99,5 +100,13 @@ void main() {
       var t2 = t.withItem2(4);
       
       expect(t2.item2, 4);    
+  });
+  
+  testWidgets('Pair Test', (WidgetTester tester) async {
+      var t = Pair.of(1,2);
+      var p = t.With(item2: 5);
+      
+      expect(p.item1, 1);
+      expect(p.item2, 5);    
   });
 }

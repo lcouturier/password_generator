@@ -1,4 +1,4 @@
-class Pair<T1,T2> {
+class Pair<T1 ,T2> {
   const Pair(this.item1, this.item2);
 
   factory Pair.fromList(List items) {
@@ -26,9 +26,13 @@ class Pair<T1,T2> {
     return new Pair<T1, T2>(v, item2);
   }
 
-
   Pair<T1, T2> withItem2(T2 v) {
     return new Pair<T1, T2>(item1, v);
+  }
+
+  Pair<T1, T2> With({T1 item1 = null, T2 item2 = null})
+  {
+    return Pair(item1 ?? this.item1, item2 ?? this.item2);
   }
 
   List toList({bool growable: false}) => new List.from([item1, item2], growable: growable);
