@@ -1,3 +1,5 @@
+import 'package:password_generator/pair.dart';
+
 class FunctionHelper
 {
     static TResult Function(T) memoize<T,TResult>(TResult Function(T) operation) 
@@ -15,6 +17,22 @@ class FunctionHelper
             var result = operation(args);
             d[args] = result;
             return result;
+        };
+    }
+
+    static Pair<Duration,TResult> Function(T) measure<T,TResult>(TResult Function(T) operation) 
+    {      
+        if (operation == null) {
+          throw new ArgumentError('operation is null');
+        }   
+        return (args)
+        {
+            Stopwatch sw = Stopwatch();
+            sw.start();
+            var result = operation(args);
+            sw.stop();
+
+            return Pair.of(sw.elapsed, result);
         };
     }
 }
