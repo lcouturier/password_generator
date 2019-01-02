@@ -11,7 +11,7 @@ class Translations {
 
   Locale locale;
 
-  static Map<String, String> _localizedValues;
+  static Map<dynamic, dynamic> _localizedValues;
 
   static Translations of(BuildContext context){
     return Localizations.of<Translations>(context, Translations);

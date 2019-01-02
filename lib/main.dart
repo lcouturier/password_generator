@@ -33,7 +33,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(        
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: Translations.of(context).text("main_title")),
+      //home: MyHomePage(title: Translations.of(context).text("main_title")),
+      home: MyHomePage(title: "Password Generator")
     );
   }
 }

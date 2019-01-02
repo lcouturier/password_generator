@@ -1,3 +1,6 @@
+import 'package:meta/meta.dart';
+
+@immutable
 class Pair<T1 ,T2> {
   const Pair(this.item1, this.item2);
 
