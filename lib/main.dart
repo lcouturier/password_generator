@@ -53,19 +53,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double _size = 8;
+  int _size = 8;
   bool _lower = false;
   bool _upper = false;
   bool _number = false;
   String _password = "";
 
-
-  void _computePassword() {
+  void _setSize(double value) {
     setState(() {     
-      _password = Password.of(_size.toInt(), CharType.upper | CharType.lower | CharType.number);
+     _size = value.toInt();
     });
   }
 
+  void _computePassword() {
+    setState(() {     
+      _password = Password.of(_size, CharType.upper | CharType.lower | CharType.number);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {    
@@ -83,11 +87,16 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(          
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[     
-
-            Slider(
-              value: _size,
+            Text(
+              '$_size caractères',
+              style: Theme.of(context).textTheme.display1,
+            ),
+            Slider(              
+              label: "Nombre de caractères",
               min: 4,
-              max: 64, onChanged: (double value) { _size = value; },
+              max: 64, 
+              value: _size.roundToDouble(), 
+              onChanged: _setSize,
             ),
             Row(
               mainAxisAlignment:  MainAxisAlignment.spaceAround,
