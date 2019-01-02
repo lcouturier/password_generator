@@ -18,7 +18,7 @@ void main() {
     ],
     home: new SplashScreen(),
     routes: <String, WidgetBuilder>{
-      '/HomeScreen': (BuildContext context) => new MyHomePage()
+      '/HomeScreen': (BuildContext context) => new MyHomePage(title: "Générateur de mot de passe")
     },
   ));
 }
@@ -42,7 +42,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
  
-
   final String title;
 
   @override
