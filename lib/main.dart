@@ -92,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
+
   void choiceAction(String choice) {
       // TODO : Implémenter le traitement des commandes
       if (choice == "Copy")
@@ -107,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  List<PopupMenuEntry> getPopMenuEntry(BuildContext context)
+  List<PopupMenuEntry<String>> getPopMenuEntry(BuildContext context)
   {
     return ItemsPopup.Items.map(getPopUpItem).toList(); 
   }
