@@ -1,5 +1,8 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:password_generator/CharType.dart';
+import 'package:password_generator/Password.dart';
+import 'package:password_generator/SharedPreferencesHelper.dart';
 import 'package:password_generator/SplashScreen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
@@ -50,13 +53,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  
-  void _incrementCounter() {
+  double _size = 8;
+  bool _lower = false;
+  bool _upper = false;
+  bool _number = false;
+  String _password = "";
+
+
+  void _computePassword() {
     setState(() {     
-      _counter++;
+      _password = Password.of(_size.toInt(), CharType.upper | CharType.lower | CharType.number);
     });
   }
+
 
   @override
   Widget build(BuildContext context) {    
@@ -73,21 +82,64 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(        
         child: Column(          
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+          children: <Widget>[     
+
+            Slider(
+              value: _size,
+              min: 4,
+              max: 64, onChanged: (double value) { _size = value; },
             ),
+            Row(
+              mainAxisAlignment:  MainAxisAlignment.spaceAround,
+              children: <Widget>[
+              Text("Minuscules"),
+              Switch(
+              value: false,     
+              key: Key("lowerSwitch"), 
+              onChanged: (bool value) {
+                _lower = value;
+              },                  
+              ),     
+              ],            
+            ),
+            Row(
+              mainAxisAlignment:  MainAxisAlignment.spaceAround,
+              children: <Widget>[
+              Text("Majuscules", ),
+              Switch(
+              value: false, 
+              onChanged: (bool value) {
+                _upper = value;
+              },         
+              key: Key("upperSwitch"),                  
+              ),     
+
+              ],            
+            ),     
+            Row(
+              mainAxisAlignment:  MainAxisAlignment.spaceAround,
+              children: <Widget>[
+              Text("Nombres"),
+              Switch(
+              value: false, 
+              onChanged: (bool value) {
+                _number = value;
+              },         
+              key: Key("numberSwitch"),                  
+              ),     
+              ],            
+            ),                   
             Text(
-              '$_counter',
+              '$_password',
               style: Theme.of(context).textTheme.display1,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,      
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+        onPressed: _computePassword,      
+        tooltip: 'Génération du mot de passe',
+        child: Icon(Icons.done),
       ), 
     );
   }
@@ -100,6 +152,17 @@ class _MyHomePageState extends State<MyHomePage> {
       {
         ClipboardManager.copyToClipBoard("Mot de passe généré...");
       }
+      if (choice == "Save")
+      {
+          _saveOptions();
+      }
+  }
+
+  void _saveOptions() {
+    SharedPreferencesHelper.setBool("Lower", _lower);
+    SharedPreferencesHelper.setBool("Upper", _upper);
+    SharedPreferencesHelper.setBool("Number", _number);
+    SharedPreferencesHelper.setValue("Size", _size.toInt().toString());
   }
 
   PopupMenuItem<String> getPopUpItem(String choice){
@@ -124,9 +187,9 @@ class ItemsPopup {
       Settings,
       Copy, 
       Apparence,
-      SignOut
+      Save
   ];
 
+  static const String Save = "Save";
   static const String Settings = "Settings";
-  static const String SignOut = "SignOut";
 }

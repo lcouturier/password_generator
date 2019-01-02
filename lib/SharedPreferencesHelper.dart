@@ -34,4 +34,16 @@ class SharedPreferencesHelper {
 
     return prefs.setString(key, value);
   }
+  static Future<bool> setBool(String key, bool value) async {
+    if (key == null){
+      throw new ArgumentError("key");
+    }
+    if (value == null){
+      throw new ArgumentError("value");
+    }
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.setBool(key, value);
+  }
 }
