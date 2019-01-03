@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:optional/optional.dart';
 
 class Preferences {
   static final String _kLanguageCode = "language";
@@ -11,13 +12,22 @@ class Preferences {
     return setValue(_kLanguageCode, value);
   }
 
-  static Future<String> getValue(String key) async {
+  static Future<Optional<String>> getValue(String key) async {
     if (key == null) {
       throw new ArgumentError("key");
     }
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    return prefs.getString(key) ?? null;
+    return Optional.of(prefs.getString(key));
+  }
+
+  static Future<Optional<int>> getInt(String key) async {
+    if (key == null) {
+      throw new ArgumentError("key");
+    }
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return Optional.of(prefs.getInt(key));
   }
 
   static Future<T> getValueOrDefault<T>(

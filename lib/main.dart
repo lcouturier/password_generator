@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    // TODO : Load SharedPreferences
+    _loadOptions();
   }
 
   void _setSize(double value) {
@@ -180,7 +180,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void _loadOptions() {}
+  void _loadOptions() {
+    
+  }
 
   void _saveOptions() {
     Preferences.setBool("Lower", _lower);
