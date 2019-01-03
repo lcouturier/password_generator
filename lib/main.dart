@@ -56,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _upper = false;
   bool _number = false;
   String _password = "";
+  double _sliderValue = 10.0;
 
   @override
   void initState() {
@@ -85,6 +86,133 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Widget get submitRatingButton {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          RaisedButton(
+            onPressed: _generatePassword,
+            child: Text('Genérer'),
+            color: Colors.blue,
+          ),
+        ]);
+  }
+
+  Widget get addColumns {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Minuscules", textAlign: TextAlign.center),
+            Switch(
+              value: _lower,
+              key: Key("lowerSwitch"),
+              onChanged: (bool value) {
+                _lower = value;
+              },
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Majuscules", textAlign: TextAlign.left),
+            Switch(
+              value: _upper,
+              onChanged: (bool value) {
+                _upper = value;
+              },
+              key: Key("upperSwitch"),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Nombres", textAlign: TextAlign.left),
+            Switch(
+              value: _number,
+              onChanged: (bool value) {
+                _number = value;
+              },
+              key: Key("numberSwitch"),
+            ),
+          ],
+        ),
+        Text(
+          '$_password',
+          style: Theme.of(context).textTheme.display1,
+        )
+      ],
+    );
+  }
+
+  Widget get addYourRating {
+    return Column(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.symmetric(
+            vertical: 32.0,
+            horizontal: 16.0,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                child: Slider(
+                  activeColor: Colors.indigoAccent,
+                  min: 4.0,
+                  max: 32.0,
+                  onChanged: _setSize,
+                  value: _size.toDouble(),
+                ),
+              ),
+              Container(
+                width: 50.0,
+                alignment: Alignment.center,
+                child: Text('${_size}',
+                    style: Theme.of(context).textTheme.display1),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget get addSwitch {
+    return Column(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.symmetric(
+            vertical: 16.0,
+            horizontal: 16.0,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Switch(
+                value: _lower,
+                key: Key("lowerSwitch"),
+                onChanged: (bool value) {
+                  _lower = value;
+                },
+              ),
+              Container(
+                width: 150.0,
+                alignment: Alignment.centerLeft,
+                child: Text('Minuscules'),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,80 +225,30 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '$_size caractères',
-              style: Theme.of(context).textTheme.display1,
-            ),
-            Slider(
-              label: "Nombre de caractères",
-              min: 4,
-              max: 64,
-              value: _size.roundToDouble(),
-              onChanged: _setSize,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Text("Minuscules"),
-                Switch(
-                  value: _lower,
-                  key: Key("lowerSwitch"),
-                  onChanged: (bool value) {
-                    _lower = value;
-                  },
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Text(
-                  "Majuscules",
-                ),
-                Switch(
-                  value: _upper,
-                  onChanged: (bool value) {
-                    _upper = value;
-                  },
-                  key: Key("upperSwitch"),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Text("Nombres"),
-                Switch(
-                  value: _number,
-                  onChanged: (bool value) {
-                    _number = value;
-                  },
-                  key: Key("numberSwitch"),
-                ),
-              ],
-            ),
-            Text(
-              '$_password',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
+      body: ListView(
+        children: <Widget>[
+          addYourRating,
+          addSwitch,
+          addColumns,
+          submitRatingButton
+        ],
       ),
+      /*
       floatingActionButton: FloatingActionButton(
         onPressed: _generatePassword,
         tooltip: 'Génération du mot de passe',
         child: Icon(Icons.done),
       ),
+      */
     );
   }
 
   void choiceAction(String choice) {
     if (choice == "Copy") {
       ClipboardManager.copyToClipBoard(_password);
+    }
+    if (choice == "Clear") {
+      ClipboardManager.copyToClipBoard("");
     }
     if (choice == "Reinit") {
       Preferences.clearAll();
@@ -180,9 +258,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void _loadOptions() {
-    
-  }
+  void _loadOptions() {}
 
   void _saveOptions() {
     Preferences.setBool("Lower", _lower);
@@ -203,7 +279,14 @@ class _MyHomePageState extends State<MyHomePage> {
 class ItemsPopup {
   static const String Apparence = "Apparence";
   static const String Copy = "Copy";
-  static const List<String> Items = <String>[Settings, Copy, Apparence, Save];
+  static const String Clear = "Clear";
+  static const List<String> Items = <String>[
+    Settings,
+    Copy,
+    Clear,
+    Apparence,
+    Save
+  ];
 
   static const String Save = "Save";
   static const String Settings = "Settings";
