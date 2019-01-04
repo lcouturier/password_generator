@@ -21,13 +21,13 @@ class Preferences {
     return Optional.of(prefs.getString(key));
   }
 
-  static Future<Optional<int>> getInt(String key) async {
+  static Future<int> getInt(String key) async {
     if (key == null) {
       throw new ArgumentError("key");
     }
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    return Optional.of(prefs.getInt(key));
+    return prefs.getInt(key);
   }
 
   static Future<T> getValueOrDefault<T>(
@@ -64,6 +64,15 @@ class Preferences {
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setBool(key, value);
+  }
+
+  static Future<bool> getBool(String key) async {
+    if (key == null) {
+      throw new ArgumentError("key");
+    }
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.getBool(key);
   }
 
   static void clearAll() async {

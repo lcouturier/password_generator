@@ -7,6 +7,7 @@ import 'package:password_generator/SplashScreen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:password_generator/Translations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -27,20 +28,6 @@ void main() {
   ));
 }
 
-@Deprecated('Old App')
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: Translations.of(context).text("app_title"),
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: MyHomePage(title: Translations.of(context).text("main_title")));
-  }
-}
-
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -56,7 +43,6 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _upper = false;
   bool _number = false;
   String _password = "";
-  double _sliderValue = 10.0;
 
   @override
   void initState() {
@@ -93,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
           RaisedButton(
             onPressed: _generatePassword,
             child: Text('Genérer'),
+            textColor: Colors.white,
             color: Colors.blue,
           ),
         ]);
@@ -149,6 +136,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Widget get addGeneratePassword {
+    return Column(children: <Widget>[
+      Text(
+        '$_password',
+        style: Theme.of(context).textTheme.display1,
+      )
+    ]);
+  }
+
   Widget get addYourRating {
     return Column(
       children: <Widget>[
@@ -183,33 +179,87 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget get addSwitch {
+  Widget get addLowerSwitch {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: 1.0,
+        horizontal: 16.0,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Switch(
+            value: _lower,
+            key: Key("lowerSwitch"),
+            onChanged: (bool value) {
+              _lower = value;
+            },
+          ),
+          Container(
+            width: 150.0,
+            alignment: Alignment.centerLeft,
+            child: Text('Minuscules'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget get addUpperSwitch {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: 1.0,
+        horizontal: 16.0,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Switch(
+            value: _upper,
+            key: Key("upperSwitch"),
+            onChanged: (bool value) {
+              _upper = value;
+            },
+          ),
+          Container(
+            width: 150.0,
+            alignment: Alignment.centerLeft,
+            child: Text('Majuscules'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget get addNumberSwitch {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: 1.0,
+        horizontal: 16.0,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Switch(
+            value: _number,
+            key: Key("numberSwitch"),
+            onChanged: (bool value) {
+              _number = value;
+            },
+          ),
+          Container(
+            width: 150.0,
+            alignment: Alignment.centerLeft,
+            child: Text('Nombres'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget get addAllSwitch {
     return Column(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.symmetric(
-            vertical: 16.0,
-            horizontal: 16.0,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Switch(
-                value: _lower,
-                key: Key("lowerSwitch"),
-                onChanged: (bool value) {
-                  _lower = value;
-                },
-              ),
-              Container(
-                width: 150.0,
-                alignment: Alignment.centerLeft,
-                child: Text('Minuscules'),
-              ),
-            ],
-          ),
-        ),
-      ],
+      children: <Widget>[addLowerSwitch, addUpperSwitch, addNumberSwitch],
     );
   }
 
@@ -228,8 +278,11 @@ class _MyHomePageState extends State<MyHomePage> {
       body: ListView(
         children: <Widget>[
           addYourRating,
-          addSwitch,
-          addColumns,
+          VerticalDivider(),
+          addAllSwitch,
+          VerticalDivider(),
+          addGeneratePassword,
+          VerticalDivider(color: Colors.white10, height: 100),
           submitRatingButton
         ],
       ),
@@ -258,13 +311,23 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void _loadOptions() {}
+  void _loadOptions() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _size = prefs.getInt("Size") ?? 8;
+      _lower = prefs.getBool("Lower") ?? false;
+      _upper = prefs.getBool("Upper") ?? false;
+      _number = prefs.getBool("Number") ?? false;
+    }); 
+  }
 
-  void _saveOptions() {
-    Preferences.setBool("Lower", _lower);
-    Preferences.setBool("Upper", _upper);
-    Preferences.setBool("Number", _number);
-    Preferences.setValue("Size", _size.toInt().toString());
+  void _saveOptions() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("Lower", _lower);
+    prefs.setBool("Upper", _upper);
+    prefs.setBool("Number", _number);
+    prefs.setInt("Size", _size.toInt());
+    prefs.commit();
   }
 
   PopupMenuItem<String> getPopUpItem(String choice) {
@@ -290,4 +353,23 @@ class ItemsPopup {
 
   static const String Save = "Save";
   static const String Settings = "Settings";
+}
+
+class VerticalDivider extends StatelessWidget {
+  final double height;
+  final double width;
+  final Color color;
+
+  VerticalDivider(
+      {this.height = 1.0, this.width = 1.0, this.color = Colors.black12});
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      height: this.height,
+      width: this.width,
+      color: this.color,
+      margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+    );
+  }
 }
