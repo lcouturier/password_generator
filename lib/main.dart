@@ -2,7 +2,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:password_generator/CharType.dart';
 import 'package:password_generator/Password.dart';
-import 'package:password_generator/SharedPreferencesHelper.dart';
+import 'package:password_generator/Preferences.dart';
 import 'package:password_generator/SplashScreen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
