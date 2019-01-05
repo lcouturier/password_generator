@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _lower = false;
   bool _upper = false;
   bool _number = false;
+  bool _specials = false;
   String _password = "";
 
   @override
@@ -67,6 +68,9 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       if (_number) {
         value |= CharType.number;
+      }
+      if (_specials) {
+        value |= CharType.special;
       }
       _password = Password.of(_size, value);
     });
@@ -145,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ]);
   }
 
-  Widget get addYourRating {
+  Widget get addSlider {
     return Column(
       children: <Widget>[
         Container(
@@ -188,6 +192,11 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          Container(
+            width: 90.0,
+            alignment: Alignment.centerLeft,
+            child: Text('Minuscules'),
+          ),
           Switch(
             value: _lower,
             key: Key("lowerSwitch"),
@@ -195,10 +204,18 @@ class _MyHomePageState extends State<MyHomePage> {
               _lower = value;
             },
           ),
+          Container(width: 30),
           Container(
-            width: 150.0,
+            width: 90.0,
             alignment: Alignment.centerLeft,
-            child: Text('Minuscules'),
+            child: Text('Speciaux'),
+          ),
+          Switch(
+            value: _specials,
+            key: Key("specialsSwitch"),
+            onChanged: (bool value) {
+              _specials = value;
+            },
           ),
         ],
       ),
@@ -214,6 +231,11 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+           Container(
+            width: 90.0,
+            alignment: Alignment.centerLeft,
+            child: Text('Majuscules'),
+          ),
           Switch(
             value: _upper,
             key: Key("upperSwitch"),
@@ -221,11 +243,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _upper = value;
             },
           ),
-          Container(
-            width: 150.0,
-            alignment: Alignment.centerLeft,
-            child: Text('Majuscules'),
-          ),
+         
         ],
       ),
     );
@@ -240,6 +258,11 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          Container(
+            width: 90.0,
+            alignment: Alignment.centerLeft,
+            child: Text('Nombres'),
+          ),
           Switch(
             value: _number,
             key: Key("numberSwitch"),
@@ -247,11 +270,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _number = value;
             },
           ),
-          Container(
-            width: 150.0,
-            alignment: Alignment.centerLeft,
-            child: Text('Nombres'),
-          ),
+          
         ],
       ),
     );
@@ -277,7 +296,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         children: <Widget>[
-          addYourRating,
+          addSlider,
           VerticalDivider(),
           addAllSwitch,
           VerticalDivider(),
@@ -318,6 +337,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _lower = prefs.getBool("Lower") ?? false;
       _upper = prefs.getBool("Upper") ?? false;
       _number = prefs.getBool("Number") ?? false;
+      _specials = prefs.getBool("Specials") ?? false;
     }); 
   }
 
@@ -327,7 +347,7 @@ class _MyHomePageState extends State<MyHomePage> {
     prefs.setBool("Upper", _upper);
     prefs.setBool("Number", _number);
     prefs.setInt("Size", _size.toInt());
-    prefs.commit();
+    prefs.setBool("Specials", _specials);    
   }
 
   PopupMenuItem<String> getPopUpItem(String choice) {
