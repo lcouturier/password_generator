@@ -10,27 +10,31 @@ import 'package:password_generator/Translations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(new MaterialApp(
-    localizationsDelegates: [
+  runApp(new MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  final routes = <String, WidgetBuilder>{
+    MyHomePage.tag: (context) => MyHomePage()
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(localizationsDelegates: [
       const TranslationsDelegate(),
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
-    ],
-    supportedLocales: [
+    ], supportedLocales: [
       const Locale('en', ''), // English
       const Locale('fr', ''), // French
-    ],
-    home: new SplashScreen(),
-    routes: <String, WidgetBuilder>{
-      '/HomeScreen': (BuildContext context) =>
-          new MyHomePage(title: "Générateur de mot de passe")
-    },
-  ));
+    ], home: new SplashScreen());
+  }
 }
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
+  static final String tag = "HomePage";
   final String title;
 
   @override
@@ -231,7 +235,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-           Container(
+          Container(
             width: 90.0,
             alignment: Alignment.centerLeft,
             child: Text('Majuscules'),
@@ -243,7 +247,6 @@ class _MyHomePageState extends State<MyHomePage> {
               _upper = value;
             },
           ),
-         
         ],
       ),
     );
@@ -251,7 +254,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget get addNumberSwitch {
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         vertical: 1.0,
         horizontal: 16.0,
       ),
@@ -270,7 +273,6 @@ class _MyHomePageState extends State<MyHomePage> {
               _number = value;
             },
           ),
-          
         ],
       ),
     );
@@ -297,11 +299,11 @@ class _MyHomePageState extends State<MyHomePage> {
       body: ListView(
         children: <Widget>[
           addSlider,
-          VerticalDivider(),
+          SizedBox(height: 10),
           addAllSwitch,
-          VerticalDivider(),
+          SizedBox(height: 10),
           addGeneratePassword,
-          VerticalDivider(color: Colors.white10, height: 100),
+          SizedBox(height: 10),
           submitRatingButton
         ],
       ),
@@ -338,7 +340,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _upper = prefs.getBool("Upper") ?? false;
       _number = prefs.getBool("Number") ?? false;
       _specials = prefs.getBool("Specials") ?? false;
-    }); 
+    });
   }
 
   void _saveOptions() async {
@@ -347,7 +349,7 @@ class _MyHomePageState extends State<MyHomePage> {
     prefs.setBool("Upper", _upper);
     prefs.setBool("Number", _number);
     prefs.setInt("Size", _size.toInt());
-    prefs.setBool("Specials", _specials);    
+    prefs.setBool("Specials", _specials);
   }
 
   PopupMenuItem<String> getPopUpItem(String choice) {

@@ -1,4 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart' show SharedPreferences;
 import 'package:optional/optional.dart';
 
 class Preferences {
@@ -52,6 +52,15 @@ class Preferences {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     return prefs.setString(key, value);
+  }
+
+  static Future<bool> setValues(Map<String, String> values) async {    
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    for (var item in values.entries) {
+        prefs.setString(item.key, item.value);
+    }
+
+    return Future.value(true);    
   }
 
   static Future<bool> setBool(String key, bool value) async {

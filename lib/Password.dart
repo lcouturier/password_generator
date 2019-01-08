@@ -32,7 +32,7 @@ class Password {
   static const brackets = '()[]{}<>';
   static const lower = 'abcdefghijklmnopqrstuvwxyz';
   static const minus = '-';
-  static const numbers = '012345678901234567890123456789';
+  static const numbers = '0123456789';
   static const punctuation = ',.;:?!';
   static const space = ' ';
   static const specials = '@#&"\'§%£=+*/|';
