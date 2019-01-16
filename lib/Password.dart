@@ -20,7 +20,7 @@ class Password {
 
       return (int size, CharType type) {
 
-          var value = CharType.toList().where((x) => (type & x)).map((x) => d[x]).reduce((a, b) => "$a$b");          
+          var value = charTypes().where((x) => (type & x)).map((x) => d[x]).reduce((a, b) => "$a$b");          
           return ArrayHelper.shuffle(Iterable.generate(10).map((x) => ArrayHelper.shuffle(value).reduce((a, b) => "$a$b")).reduce((a, b) => "$a$b")).take(size).reduce((a, b) => "$a$b");              
       };
   }

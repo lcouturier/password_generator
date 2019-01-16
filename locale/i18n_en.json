@@ -1,5 +1,6 @@
 {
     "app_title": "Password Generator",
     "main_title": "My Main Title",
-    "command_copy" : "Copy"
+    "command_copy" : "Copy",
+    "btn_generate_label" : "Generate"
 }

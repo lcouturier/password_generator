@@ -19,8 +19,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   startTime() async {
-    var _duration = new Duration(seconds: 2);
-    return new Timer(_duration, navigationPage);
+    var _duration = Duration(seconds: 2);
+    return Timer(_duration, navigationPage);
   }
 
   void navigationPage() {
@@ -29,9 +29,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-  return new Scaffold(        
-    body: new Center(
-      child: new Image.asset('images/flutterwithlogo.png'),      
+  return Scaffold(        
+    body: Center(
+      child: Image.asset('images/flutterwithlogo.png'),      
     ),
   );
   }

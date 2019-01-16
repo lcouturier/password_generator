@@ -83,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget get submitRatingButton {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        
         children: <Widget>[
           RaisedButton(
             onPressed: _generatePassword,
