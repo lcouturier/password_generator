@@ -1,6 +1,5 @@
 import 'package:quiver/core.dart';
 import 'package:shared_preferences/shared_preferences.dart' show SharedPreferences;
-import 'package:optional/optional.dart';
 
 class Preferences {
   static final String _kLanguageCode = "language";

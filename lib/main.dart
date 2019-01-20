@@ -6,6 +6,7 @@ import 'package:password_generator/Preferences.dart';
 import 'package:password_generator/SplashScreen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
+import 'package:password_generator/Toast.dart';
 import 'package:password_generator/Translations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,14 +21,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(localizationsDelegates: [
-      const TranslationsDelegate(),
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-    ], supportedLocales: [
-      const Locale('en', ''), // English
-      const Locale('fr', ''), // French
-    ], home: new SplashScreen());
+    return new MaterialApp(
+        localizationsDelegates: [
+          const TranslationsDelegate(),
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en', ''), // English
+          const Locale('fr', ''), // French
+        ],
+        home: new SplashScreen(),
+        routes: <String, WidgetBuilder>{
+          'HomePage': (BuildContext context) =>
+              new MyHomePage(title: "Générateur de mot de passe")
+        });
   }
 }
 
@@ -47,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _upper = false;
   bool _number = false;
   bool _specials = false;
+  bool _punctuations = false;
   String _password = "";
 
   @override
@@ -76,74 +85,29 @@ class _MyHomePageState extends State<MyHomePage> {
       if (_specials) {
         value |= CharType.special;
       }
+      if (_punctuations) {
+        value |= CharType.punctuation;
+      }
       _password = Password.of(_size, value);
     });
   }
 
   Widget get submitRatingButton {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        
-        children: <Widget>[
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[      
           RaisedButton(
             onPressed: _generatePassword,
             child: Text('Genérer'),
             textColor: Colors.white,
             color: Colors.blue,
-          ),
+          ),          
         ]);
   }
 
-  Widget get addColumns {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text("Minuscules", textAlign: TextAlign.center),
-            Switch(
-              value: _lower,
-              key: Key("lowerSwitch"),
-              onChanged: (bool value) {
-                _lower = value;
-              },
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text("Majuscules", textAlign: TextAlign.left),
-            Switch(
-              value: _upper,
-              onChanged: (bool value) {
-                _upper = value;
-              },
-              key: Key("upperSwitch"),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text("Nombres", textAlign: TextAlign.left),
-            Switch(
-              value: _number,
-              onChanged: (bool value) {
-                _number = value;
-              },
-              key: Key("numberSwitch"),
-            ),
-          ],
-        ),
-        Text(
-          '$_password',
-          style: Theme.of(context).textTheme.display1,
-        )
-      ],
-    );
-  }
+  
 
   Widget get addGeneratePassword {
     return Column(children: <Widget>[
@@ -188,91 +152,29 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget get addLowerSwitch {
+  Widget createSwitch(
+      String label, bool initialValue, void Function(bool) onChanged) {
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: 1.0,
-        horizontal: 16.0,
+        horizontal: 20.0,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Container(
-            width: 90.0,
+          Container(           
+            width: 150.0,
             alignment: Alignment.centerLeft,
-            child: Text('Minuscules'),
+            child: Text(label),
           ),
-          Switch(
-            value: _lower,
-            key: Key("lowerSwitch"),
-            onChanged: (bool value) {
-              _lower = value;
-            },
-          ),
-          Container(width: 30),
-          Container(
-            width: 90.0,
-            alignment: Alignment.centerLeft,
-            child: Text('Speciaux'),
-          ),
-          Switch(
-            value: _specials,
-            key: Key("specialsSwitch"),
-            onChanged: (bool value) {
-              _specials = value;
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget get addUpperSwitch {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: 1.0,
-        horizontal: 16.0,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            width: 90.0,
-            alignment: Alignment.centerLeft,
-            child: Text('Majuscules'),
-          ),
-          Switch(
-            value: _upper,
-            key: Key("upperSwitch"),
-            onChanged: (bool value) {
-              _upper = value;
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget get addNumberSwitch {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 1.0,
-        horizontal: 16.0,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            width: 90.0,
-            alignment: Alignment.centerLeft,
-            child: Text('Nombres'),
-          ),
-          Switch(
-            value: _number,
-            key: Key("numberSwitch"),
-            onChanged: (bool value) {
-              _number = value;
-            },
+          Container(                        
+            width: 170.0,
+            alignment: Alignment.centerRight,
+            child: Switch(
+              value: _upper,
+              key: Key(label),
+              onChanged: onChanged,
+            ),
           ),
         ],
       ),
@@ -281,7 +183,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget get addAllSwitch {
     return Column(
-      children: <Widget>[addLowerSwitch, addUpperSwitch, addNumberSwitch],
+      children: <Widget>[
+        createSwitch("Minuscules", _lower, (x) => _lower = x),
+        createSwitch("Majuscules", _upper, (x) => _upper = x),
+        createSwitch("Nombres", _number, (x) => _number = x),
+        createSwitch("Caractères spéciaux", _specials, (x) => _specials = x),
+        createSwitch("Ponctuations", _punctuations, (x) => _punctuations = x),
+        createSwitch("Minus", _punctuations, (x) => _punctuations = x),
+        createSwitch("Underline", _punctuations, (x) => _punctuations = x),
+        createSwitch("Espace", _punctuations, (x) => _punctuations = x),
+      ],
     );
   }
 
@@ -297,16 +208,21 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
       ),
-      body: ListView(
+      body: Column(
         children: <Widget>[
           addSlider,
           SizedBox(height: 10),
-          addAllSwitch,
+          VerticalDivider(height: 2),
+          addAllSwitch,        
           SizedBox(height: 10),
+          VerticalDivider(height: 2),
           addGeneratePassword,
-          SizedBox(height: 10),
-          submitRatingButton
-        ],
+          Expanded(child: Container()),
+          submitRatingButton,
+          Expanded(child: Container(
+            height: 5
+          )),
+        ]
       ),
       /*
       floatingActionButton: FloatingActionButton(
@@ -321,15 +237,19 @@ class _MyHomePageState extends State<MyHomePage> {
   void choiceAction(String choice) {
     if (choice == "Copy") {
       ClipboardManager.copyToClipBoard(_password);
+      Message.Show("Copie dans le presse papier");
     }
     if (choice == "Clear") {
       ClipboardManager.copyToClipBoard("");
+      Message.Show("Remise à zéro du presse papier");
     }
     if (choice == "Reinit") {
       Preferences.clearAll();
+      Message.Show("Suppression des préférences");
     }
     if (choice == "Save") {
       _saveOptions();
+      Message.Show("Les options ont été sauvegardées");
     }
   }
 
@@ -341,6 +261,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _upper = prefs.getBool("Upper") ?? false;
       _number = prefs.getBool("Number") ?? false;
       _specials = prefs.getBool("Specials") ?? false;
+      _punctuations = prefs.getBool("Punctuations") ?? false;
     });
   }
 
@@ -351,6 +272,7 @@ class _MyHomePageState extends State<MyHomePage> {
     prefs.setBool("Number", _number);
     prefs.setInt("Size", _size.toInt());
     prefs.setBool("Specials", _specials);
+    prefs.setBool("Punctuations", _punctuations);
   }
 
   PopupMenuItem<String> getPopUpItem(String choice) {
