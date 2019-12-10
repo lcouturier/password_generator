@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 @immutable
-class Pair<T1 ,T2> {
+class Pair<T1, T2> {
   const Pair(this.item1, this.item2);
 
   factory Pair.fromList(List items) {
@@ -12,7 +12,7 @@ class Pair<T1 ,T2> {
     return new Pair<T1, T2>(items[0] as T1, items[1] as T2);
   }
 
-  factory Pair.of(T1 v1, T2 v2) {    
+  factory Pair.of(T1 v1, T2 v2) {
     return new Pair<T1, T2>(v1, v2);
   }
 
@@ -20,7 +20,7 @@ class Pair<T1 ,T2> {
   final T2 item2;
 
   @override
-  bool operator ==(o) => o is Pair && o.item1 == item1 && o.item2 == item2;    
+  bool operator ==(o) => o is Pair && o.item1 == item1 && o.item2 == item2;
 
   @override
   String toString() => '[$item1, $item2]';
@@ -33,12 +33,10 @@ class Pair<T1 ,T2> {
     return new Pair<T1, T2>(item1, v);
   }
 
-  Pair<T1, T2> With({T1 item1 = null, T2 item2 = null})
-  {
+  Pair<T1, T2> With({T1 item1 = null, T2 item2 = null}) {
     return Pair(item1 ?? this.item1, item2 ?? this.item2);
   }
 
-  List toList({bool growable: false}) => new List.from([item1, item2], growable: growable);
+  List toList({bool growable: false}) =>
+      new List.from([item1, item2], growable: growable);
 }
-
-

@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:quiver/core.dart';
-import 'package:shared_preferences/shared_preferences.dart' show SharedPreferences;
+import 'package:shared_preferences/shared_preferences.dart'
+    show SharedPreferences;
 
 class Preferences {
   static final String _kLanguageCode = "language";
@@ -54,13 +57,13 @@ class Preferences {
     return prefs.setString(key, value);
   }
 
-  static Future<bool> setValues(Map<String, String> values) async {    
+  static Future<bool> setValues(Map<String, String> values) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     for (var item in values.entries) {
-        prefs.setString(item.key, item.value);
+      prefs.setString(item.key, item.value);
     }
 
-    return Future.value(true);    
+    return Future.value(true);
   }
 
   static Future<bool> setBool(String key, bool value) async {

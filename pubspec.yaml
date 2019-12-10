@@ -25,16 +25,16 @@ dependencies:
   clipboard_manager: ^0.0.1
   optional: ^3.0.0+2
   fluttertoast: ^2.2.3
-  
+
 
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter  
+    sdk: flutter
   flutter_launcher_icons: "^0.7.0"
-  
+
 flutter_icons:
-  android: true 
+  android: true
   ios: true
   image_path: "icons/icon.png"
 
@@ -48,7 +48,7 @@ flutter:
     - images/
     - locale/
     - icons/
-    
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 

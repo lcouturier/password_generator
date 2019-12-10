@@ -34,79 +34,86 @@ void main() {
   });
 
   testWidgets('Shuffle test', (WidgetTester tester) async {
-    var items = [0,1,2,3,4];
-    
-    var result = ArrayHelper.shuffleInt(items);
-    print(result.map((x) => x.toString()).reduce((a, b) => "$a$b"));    
+    var items = [0, 1, 2, 3, 4];
 
+    var result = ArrayHelper.shuffleInt(items);
+    print(result.map((x) => x.toString()).reduce((a, b) => "$a$b"));
 
     for (var item in ArrayHelper.cycle(items).take(20)) {
-        print(item);
-    } 
+      print(item);
+    }
   });
 
-
-  testWidgets('Shuffle test 2', (WidgetTester tester) async {        
+  testWidgets('Shuffle test 2', (WidgetTester tester) async {
     const String value = "LaurentCouturier";
-    for (int x = 0; x < 20; x++)            
-    {
-      print(ArrayHelper.shuffle(value).map((x) => x.toString()).reduce((a, b) => "$a$b"));    
+    for (int x = 0; x < 20; x++) {
+      print(ArrayHelper.shuffle(value)
+          .map((x) => x.toString())
+          .reduce((a, b) => "$a$b"));
     }
-    
   });
 
   testWidgets('Sequence test 1', (WidgetTester tester) async {
-
-      var result = Sequence.generate(1, (x) => x + 1).take(20).map((x) => x.toString()).reduce((a, b) => "$a$b");    
-      print(result);
+    var result = Sequence.generate(1, (x) => x + 1)
+        .take(20)
+        .map((x) => x.toString())
+        .reduce((a, b) => "$a$b");
+    print(result);
   });
 
   testWidgets('Sequence factorial 1', (WidgetTester tester) async {
-
-      var result = Sequence.factorial.take(10).map((x) => x.toString()).reduce((a, b) => "$a, $b");    
-      print(result);
+    var result = Sequence.factorial
+        .take(10)
+        .map((x) => x.toString())
+        .reduce((a, b) => "$a, $b");
+    print(result);
   });
 
   testWidgets('Sequence fibonacci 1', (WidgetTester tester) async {
-
-      var result = Sequence.fibonacci.take(20).map((x) => x.toString()).reduce((a, b) => "$a, $b");    
-      print(result);
+    var result = Sequence.fibonacci
+        .take(20)
+        .map((x) => x.toString())
+        .reduce((a, b) => "$a, $b");
+    print(result);
   });
-
 
   testWidgets('Password test', (WidgetTester tester) async {
-      for (int x = 0; x < 10; x++)            
-      {
-        var result = Password.of(32, CharType.upper | CharType.lower | CharType.number | CharType.accentuated | CharType.punctuation);    
-        print(result);
-      }      
+    for (int x = 0; x < 10; x++) {
+      var result = Password.of(
+          32,
+          CharType.upper |
+              CharType.lower |
+              CharType.number |
+              CharType.accentuated |
+              CharType.punctuation);
+      print(result);
+    }
   });
 
-
   testWidgets('CharType test 1', (WidgetTester tester) async {
-      CharType type = CharType.lower | CharType.upper;      
+    CharType type = CharType.lower | CharType.upper;
 
-      expect(type.code, 3);         
+    expect(type.code, 3);
   });
 
   testWidgets('CharType test 2', (WidgetTester tester) async {
-      CharType type = CharType.lower | CharType.upper | CharType.number;
+    CharType type = CharType.lower | CharType.upper | CharType.number;
 
-      expect(type.code, 7);          
+    expect(type.code, 7);
   });
 
   testWidgets('Triple Test', (WidgetTester tester) async {
-      var t = Triple.of(1,2,3);
-      var t2 = t.withItem2(4);
-      
-      expect(t2.item2, 4);    
+    var t = Triple.of(1, 2, 3);
+    var t2 = t.withItem2(4);
+
+    expect(t2.item2, 4);
   });
-  
+
   testWidgets('Pair Test', (WidgetTester tester) async {
-      var t = Pair.of(1,2);
-      var p = t.With(item2: 5);
-      
-      expect(p.item1, 1);
-      expect(p.item2, 5);    
+    var t = Pair.of(1, 2);
+    var p = t.With(item2: 5);
+
+    expect(p.item1, 1);
+    expect(p.item2, 5);
   });
 }

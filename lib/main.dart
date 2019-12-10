@@ -97,17 +97,15 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[      
+        children: <Widget>[
           RaisedButton(
             onPressed: _generatePassword,
             child: Text('Genérer'),
             textColor: Colors.white,
             color: Colors.blue,
-          ),          
+          ),
         ]);
   }
-
-  
 
   Widget get addGeneratePassword {
     return Column(children: <Widget>[
@@ -162,16 +160,16 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Container(           
+          Container(
             width: 150.0,
             alignment: Alignment.centerLeft,
             child: Text(label),
           ),
-          Container(                        
+          Container(
             width: 170.0,
             alignment: Alignment.centerRight,
             child: Switch(
-              value: _upper,
+              value: initialValue,
               key: Key(label),
               onChanged: onChanged,
             ),
@@ -187,11 +185,13 @@ class _MyHomePageState extends State<MyHomePage> {
         createSwitch("Minuscules", _lower, (x) => _lower = x),
         createSwitch("Majuscules", _upper, (x) => _upper = x),
         createSwitch("Nombres", _number, (x) => _number = x),
-        createSwitch("Caractères spéciaux", _specials, (x) => _specials = x),
+        createSwitch("Caractères spéciaux", _specials, (x) => _specials = x)
+        /*
         createSwitch("Ponctuations", _punctuations, (x) => _punctuations = x),
         createSwitch("Minus", _punctuations, (x) => _punctuations = x),
         createSwitch("Underline", _punctuations, (x) => _punctuations = x),
         createSwitch("Espace", _punctuations, (x) => _punctuations = x),
+        */
       ],
     );
   }
@@ -208,29 +208,17 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          addSlider,
-          SizedBox(height: 10),
-          VerticalDivider(height: 2),
-          addAllSwitch,        
-          SizedBox(height: 10),
-          VerticalDivider(height: 2),
-          addGeneratePassword,
-          Expanded(child: Container()),
-          submitRatingButton,
-          Expanded(child: Container(
-            height: 5
-          )),
-        ]
-      ),
-      /*
-      floatingActionButton: FloatingActionButton(
-        onPressed: _generatePassword,
-        tooltip: 'Génération du mot de passe',
-        child: Icon(Icons.done),
-      ),
-      */
+      body: Column(children: <Widget>[
+        addSlider,
+        SizedBox(height: 10),
+        VerticalDivider(height: 2),
+        addAllSwitch,
+        VerticalDivider(height: 2),
+        addGeneratePassword,
+        SizedBox(height: 20),
+        submitRatingButton,
+        Expanded(child: Container(height: 5)),
+      ]),
     );
   }
 
@@ -288,6 +276,9 @@ class ItemsPopup {
   static const String Apparence = "Apparence";
   static const String Copy = "Copy";
   static const String Clear = "Clear";
+  static const String Save = "Save";
+  static const String Settings = "Settings";
+
   static const List<String> Items = <String>[
     Settings,
     Copy,
@@ -295,9 +286,6 @@ class ItemsPopup {
     Apparence,
     Save
   ];
-
-  static const String Save = "Save";
-  static const String Settings = "Settings";
 }
 
 class VerticalDivider extends StatelessWidget {

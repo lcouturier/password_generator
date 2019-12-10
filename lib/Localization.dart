@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 
 class DemoLocalizations {
   DemoLocalizations(this.locale);

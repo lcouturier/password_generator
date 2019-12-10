@@ -13,7 +13,7 @@ class Translations {
 
   static Map<dynamic, dynamic> _localizedValues;
 
-  static Translations of(BuildContext context){
+  static Translations of(BuildContext context) {
     return Localizations.of<Translations>(context, Translations);
   }
 
@@ -21,7 +21,8 @@ class Translations {
 
   static Future<Translations> load(Locale locale) async {
     Translations translations = new Translations(locale);
-    String content = await rootBundle.loadString("locale/i18n_${locale.languageCode}.json");
+    String content =
+        await rootBundle.loadString("locale/i18n_${locale.languageCode}.json");
     _localizedValues = json.decode(content);
     return translations;
   }
@@ -29,12 +30,11 @@ class Translations {
   get currentLanguage => locale.languageCode;
 }
 
-
 class TranslationsDelegate extends LocalizationsDelegate<Translations> {
   const TranslationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => ['en','fr'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => ['en', 'fr'].contains(locale.languageCode);
 
   @override
   Future<Translations> load(Locale locale) => Translations.load(locale);
