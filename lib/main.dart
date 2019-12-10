@@ -241,7 +241,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _loadOptions() async {
-    var options = SharedPrefs.read("options");
+    var options = Options.fromJson(SharedPrefs.read("options"));
     setState(() {
       _size = options.size;
       _lower = options.lower;
