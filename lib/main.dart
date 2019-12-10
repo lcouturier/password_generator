@@ -1,14 +1,15 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:password_generator/CharType.dart';
+import 'package:password_generator/Options.dart';
 import 'package:password_generator/Password.dart';
 import 'package:password_generator/Preferences.dart';
+import 'package:password_generator/SharedPrefs.dart';
 import 'package:password_generator/SplashScreen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:password_generator/Toast.dart';
 import 'package:password_generator/Translations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(new MyApp());
@@ -131,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 flex: 1,
                 child: Slider(
                   activeColor: Colors.indigoAccent,
-                  min: 4.0,
+                  min: 6.0,
                   max: 32.0,
                   onChanged: _setSize,
                   value: _size.toDouble(),
@@ -153,10 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget createSwitch(
       String label, bool initialValue, void Function(bool) onChanged) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: 1.0,
-        horizontal: 20.0,
-      ),
+      padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -186,6 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
         createSwitch("Majuscules", _upper, (x) => _upper = x),
         createSwitch("Nombres", _number, (x) => _number = x),
         createSwitch("Caractères spéciaux", _specials, (x) => _specials = x)
+
         /*
         createSwitch("Ponctuations", _punctuations, (x) => _punctuations = x),
         createSwitch("Minus", _punctuations, (x) => _punctuations = x),
@@ -242,25 +241,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _loadOptions() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var options = SharedPrefs.read("options");
     setState(() {
-      _size = prefs.getInt("Size") ?? 8;
-      _lower = prefs.getBool("Lower") ?? false;
-      _upper = prefs.getBool("Upper") ?? false;
-      _number = prefs.getBool("Number") ?? false;
-      _specials = prefs.getBool("Specials") ?? false;
-      _punctuations = prefs.getBool("Punctuations") ?? false;
+      _size = options.size;
+      _lower = options.lower;
+      _upper = options.upper;
+      _number = options.number;
+      _specials = options.specials;
+      _punctuations = options.punctuations;
     });
   }
 
   void _saveOptions() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool("Lower", _lower);
-    prefs.setBool("Upper", _upper);
-    prefs.setBool("Number", _number);
-    prefs.setInt("Size", _size.toInt());
-    prefs.setBool("Specials", _specials);
-    prefs.setBool("Punctuations", _punctuations);
+    var value = Options(_size, _lower, _upper, _number, _specials, _punctuations);
+    SharedPrefs.save("options", value);
   }
 
   PopupMenuItem<String> getPopUpItem(String choice) {
@@ -273,7 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class ItemsPopup {
-  static const String Apparence = "Apparence";
+  static const String Appearance = "Apparence";
   static const String Copy = "Copy";
   static const String Clear = "Clear";
   static const String Save = "Save";
@@ -283,7 +277,7 @@ class ItemsPopup {
     Settings,
     Copy,
     Clear,
-    Apparence,
+    Appearance,
     Save
   ];
 }
