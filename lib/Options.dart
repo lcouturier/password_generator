@@ -8,13 +8,14 @@ class Options {
 
   Options(this.size, this.lower, this.upper, this.number, this.specials, this.punctuations);
 
-  Options.fromJson(Map<String, dynamic> json) {
-      size = json['size'] ?? 8;
-      lower = json['lower'] ?? false;
-      upper = json['upper'] ?? false;
-      number = json['number'] ?? false;
-      specials = json['specials'] ?? false;
-      punctuations = json['punctuations'] ?? false;
+  factory Options.fromJson(Map<String, dynamic> json) {
+      var size = json['size'] ?? 8;
+      var lower = json['lower'] ?? false;
+      var upper = json['upper'] ?? false;
+      var number = json['number'] ?? false;
+      var specials = json['specials'] ?? false;
+      var punctuations = json['punctuations'] ?? false;
+      return Options((size), lower, upper, number, specials, punctuations);
   }
 
   Map<String, dynamic> toJson()

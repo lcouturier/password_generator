@@ -183,7 +183,8 @@ class _MyHomePageState extends State<MyHomePage> {
         createSwitch("Minuscules", _lower, (x) => _lower = x),
         createSwitch("Majuscules", _upper, (x) => _upper = x),
         createSwitch("Nombres", _number, (x) => _number = x),
-        createSwitch("Caractères spéciaux", _specials, (x) => _specials = x)
+        createSwitch("Caractères spéciaux", _specials, (x) => _specials = x),
+        createSwitch("Ponctuations", _punctuations, (x) => _punctuations = x),
 
         /*
         createSwitch("Ponctuations", _punctuations, (x) => _punctuations = x),
@@ -240,21 +241,27 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  void _initData(Options options) {
+    if (options == null)
+      throw ArgumentError("Invalid options");
+
+    _size = options.size;
+    _lower = options.lower;
+    _upper = options.upper;
+    _number = options.number;
+    _specials = options.specials;
+    _punctuations = options.punctuations;
+  }
+
   void _loadOptions() async {
-    var options = Options.fromJson(SharedPrefs.read("options"));
-    setState(() {
-      _size = options.size;
-      _lower = options.lower;
-      _upper = options.upper;
-      _number = options.number;
-      _specials = options.specials;
-      _punctuations = options.punctuations;
-    });
+    var options = new Options.fromJson(SharedPrefs.read("options"));
+    setState(() => _initData(options));
   }
 
   void _saveOptions() async {
-    var value = Options(_size, _lower, _upper, _number, _specials, _punctuations);
-    SharedPrefs.save("options", value);
+    var value =
+        Options(_size, _lower, _upper, _number, _specials, _punctuations);
+    SharedPrefs.save("options", value.toJson());
   }
 
   PopupMenuItem<String> getPopUpItem(String choice) {
