@@ -254,14 +254,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _loadOptions() async {
-    var options = new Options.fromJson(SharedPrefs.read("options"));
+    var options = Options.fromJson(SharedPrefs.read("options"));
     setState(() => _initData(options));
   }
 
   void _saveOptions() async {
-    var value =
-        Options(_size, _lower, _upper, _number, _specials, _punctuations);
-    SharedPrefs.save("options", value.toJson());
+    var value = Options(_size, _lower, _upper, _number, _specials, _punctuations);
+    SharedPrefs.save("options", value);
   }
 
   PopupMenuItem<String> getPopUpItem(String choice) {
