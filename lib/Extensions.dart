@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:password_generator/pair.dart';
 
 extension FuncExtensions<T, TResult> on TResult Function(T) {
@@ -21,6 +22,17 @@ extension FuncExtensions<T, TResult> on TResult Function(T) {
       sw.stop();
 
       return Pair.of(sw.elapsed, result);
+    };
+  }
+
+  TResult Function(T) catchError(TResult Function() operation) {
+    return (args) {
+      try
+      {
+        return this(args);
+      } catch(e) {
+        return operation();
+      }
     };
   }
 }
