@@ -25,12 +25,14 @@ extension FuncExtensions<T, TResult> on TResult Function(T) {
     };
   }
 
+  /*
+  Add exception manager to the function
+   */
   TResult Function(T) catchError(TResult Function() operation) {
     return (args) {
-      try
-      {
+      try {
         return this(args);
-      } catch(e) {
+      } catch (e) {
         return operation();
       }
     };
@@ -53,3 +55,13 @@ extension FunctionExtensions on Function() {
     return () => operation(this());
   }
 }
+
+extension CurryExtensions<F, S, R> on R Function(F, S) {
+  R Function(S) curry(F first) {
+    return (S second) => this(first, second);
+  }
+}
+
+
+
+

@@ -119,9 +119,7 @@ void main() {
   });
 
   testWidgets('Into test', (WidgetTester tester) async {
-    int add10(int value) => value + 10;
-    int add5(int value) => value + 5;
-    var result = 10.into(add10).into(add5)();
+    var result = 10.into((x) => x + 10).into((x) => x + 5)();
     expect(result, 25);
   });
 }
