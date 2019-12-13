@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:password_generator/pair.dart';
 
-import 'ArrayHelper.dart';
 
 extension FuncExtensions<T,TResult> on TResult Function(T) {
   static Pair<Duration, TResult> Function(T) measure<T, TResult>(
@@ -18,13 +17,10 @@ extension FuncExtensions<T,TResult> on TResult Function(T) {
       var result = operation(args);
       sw.stop();
 
-      10.into().into()
-
       return Pair.of(sw.elapsed, result);
     };
   }
 }
-
 
 extension IntExtensions on int {
   Duration get seconds => Duration(seconds: this);
@@ -42,19 +38,6 @@ extension FunctionExtensions on int Function() {
   }
 }
 
-extension StringExtensions on String {
-  static List<String> shuffle() {
-    var f = _internalShuffleCore<String>();
-    return f(this)
-  }
-
-  static Iterable<String> toIterable() sync* {
-    var value = this;
-    for (int i = 0; i < value.length; i++) {
-      yield value[i];
-    }
-  }
-}
 
 List<T> Function(List<T>) _internalShuffleCore<T>() {
   var random = new Random();

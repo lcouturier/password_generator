@@ -14,6 +14,7 @@ import 'package:password_generator/Sequence.dart';
 import 'package:password_generator/Triple.dart';
 import 'package:password_generator/main.dart';
 import 'package:password_generator/pair.dart';
+import 'package:password_generator/Extensions.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
@@ -115,5 +116,12 @@ void main() {
 
     expect(p.item1, 1);
     expect(p.item2, 5);
+  });
+
+  testWidgets('Into test', (WidgetTester tester) async {
+    int add10(int value) => value + 10;
+    int add5(int value) => value + 5;
+    var result = 10.into(add10).into(add5)();
+    expect(result, 25);
   });
 }
