@@ -122,4 +122,9 @@ void main() {
     var result = 10.into((x) => x + 10).into((x) => x + 5)();
     expect(result, 25);
   });
+
+  testWidgets('Pattern test', (WidgetTester tester) async {
+
+
+  });
 }

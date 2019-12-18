@@ -242,8 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _initData(Options options) {
-    if (options == null)
-      throw ArgumentError("Invalid options");
+    if (options == null) throw ArgumentError("Invalid options");
 
     _size = options.size;
     _lower = options.lower;
@@ -259,7 +258,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _saveOptions() async {
-    var value = Options(_size, _lower, _upper, _number, _specials, _punctuations);
+    var value =
+        Options(_size, _lower, _upper, _number, _specials, _punctuations);
     SharedPrefs.save("options", value);
   }
 

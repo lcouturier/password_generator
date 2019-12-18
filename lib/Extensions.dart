@@ -39,10 +39,18 @@ extension FuncExtensions<T, TResult> on TResult Function(T) {
   }
 }
 
+
+extension ListExtensions<T extends num> on List<T> {
+  T get sum => fold(0 as T, (x, y) => x + y);
+}
+
 extension IntExtensions on int {
   Duration get seconds => Duration(seconds: this);
+
   Duration get minutes => Duration(minutes: this);
+
   Duration get hours => Duration(hours: this);
+
   Duration get days => Duration(days: this);
 
   int Function() into(int Function(int) operation) {
@@ -61,7 +69,3 @@ extension CurryExtensions<F, S, R> on R Function(F, S) {
     return (S second) => this(first, second);
   }
 }
-
-
-
-

@@ -18,7 +18,8 @@ class FunctionHelper {
     };
   }
 
-  static Pair<Duration, TResult> Function(T) measure<T, TResult>(TResult Function(T) operation) {
+  static Pair<Duration, TResult> Function(T) measure<T, TResult>(
+      TResult Function(T) operation) {
     if (operation == null) {
       throw new ArgumentError('operation is null');
     }

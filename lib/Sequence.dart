@@ -13,7 +13,8 @@ class Sequence {
       generate(Pair.of(1, 1), (x) => Pair.of(x.item1 * x.item2, x.item2 + 1))
           .map((x) => x.item1);
 
-  static Iterable<DateTime> datesFromNow = generate(DateTime.now(), (x) => x.add(new Duration(days: 1)));
+  static Iterable<DateTime> datesFromNow =
+      generate(DateTime.now(), (x) => x.add(new Duration(days: 1)));
 
   static Iterable<T> generate<T>(T start, T Function(T) operation) sync* {
     T next = start;
@@ -23,5 +24,3 @@ class Sequence {
     }
   }
 }
-
-
