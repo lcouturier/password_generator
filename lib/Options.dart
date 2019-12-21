@@ -1,32 +1,92 @@
+import 'dart:convert';
+
 class Options {
-  int size;
-  bool lower;
-  bool upper;
-  bool number;
-  bool specials;
-  bool punctuations;
+  final int size;
+  final bool lower;
+  final bool upper;
+  final bool number;
+  final bool specials;
+  final bool punctuations;
+  Options({
+    this.size,
+    this.lower,
+    this.upper,
+    this.number,
+    this.specials,
+    this.punctuations,
+  });
 
-  Options(this.size, this.lower, this.upper, this.number, this.specials,
-      this.punctuations);
-
-  factory Options.fromJson(Map<String, dynamic> json) {
-    var size = json['size'] ?? 8;
-    var lower = json['lower'] ?? false;
-    var upper = json['upper'] ?? false;
-    var number = json['number'] ?? false;
-    var specials = json['specials'] ?? false;
-    var punctuations = json['punctuations'] ?? false;
-    return Options((size), lower, upper, number, specials, punctuations);
+  Options copyWith({
+    int size,
+    bool lower,
+    bool upper,
+    bool number,
+    bool specials,
+    bool punctuations,
+  }) {
+    return Options(
+      size: size ?? this.size,
+      lower: lower ?? this.lower,
+      upper: upper ?? this.upper,
+      number: number ?? this.number,
+      specials: specials ?? this.specials,
+      punctuations: punctuations ?? this.punctuations,
+    );
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['size'] = this.size;
-    data['lower'] = this.lower;
-    data['upper'] = this.upper;
-    data['number'] = this.number;
-    data['special'] = this.specials;
-    data['punctuations'] = this.punctuations;
-    return data;
+  Map<String, dynamic> toMap() {
+    return {
+      'size': size,
+      'lower': lower,
+      'upper': upper,
+      'number': number,
+      'specials': specials,
+      'punctuations': punctuations,
+    };
   }
-}
+
+  static Options fromMap(Map<String, dynamic> map) {
+    if (map == null) return null;
+  
+    return Options(
+      size: map['size'],
+      lower: map['lower'],
+      upper: map['upper'],
+      number: map['number'],
+      specials: map['specials'],
+      punctuations: map['punctuations'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  static Options fromJson(String source) => fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'Options size: $size, lower: $lower, upper: $upper, number: $number, specials: $specials, punctuations: $punctuations';
+  }
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+  
+    return o is Options &&
+      o.size == size &&
+      o.lower == lower &&
+      o.upper == upper &&
+      o.number == number &&
+      o.specials == specials &&
+      o.punctuations == punctuations;
+  }
+
+  @override
+  int get hashCode {
+    return size.hashCode ^
+      lower.hashCode ^
+      upper.hashCode ^
+      number.hashCode ^
+      specials.hashCode ^
+      punctuations.hashCode;
+  }
+} 

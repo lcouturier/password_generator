@@ -1,18 +1,22 @@
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class SharedPrefs {
-  static read(String key) async {
+  static Future<String> read(String key) async {
+    assert(key != null);
     final prefs = await SharedPreferences.getInstance();
-    return json.decode(prefs.getString(key));
+    return prefs.getString(key);
   }
 
-  static save(String key, value) async {
+  static save(String key, String value) async {
+    assert(key != null);
+    assert(value != null);
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, json.encode(value));
+    prefs.setString(key, value);
   }
 
   static remove(String key) async {
+    assert(key != null);
     final prefs = await SharedPreferences.getInstance();
     prefs.remove(key);
   }

@@ -49,7 +49,7 @@ class PatternMatch<T,R>{
   }
 
   R exec() {
-    var notFound = (!cases.any((x) => x.predicate(this.value));
+    var notFound = (!cases.any((x) => x.predicate(this.value)));
     if (!notFound) throw new MatchNotFoundException("Incomplete pattern match");
 
     var f = cases.firstWhere((x) => x.predicate(this.value)).map;

@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:password_generator/pair.dart';
 
 extension FuncExtensions<T, TResult> on TResult Function(T) {
@@ -41,8 +40,14 @@ extension FuncExtensions<T, TResult> on TResult Function(T) {
 
 
 extension ListExtensions<T extends num> on List<T> {
-  T get sum => fold(0 as T, (x, y) => x + y);
+  T get sum => this.fold(0 as T, (x, y) => x + y);
 }
+
+
+extension StringExtensions on String {
+  String get firsLetterToUpperCase => this[0].toUpperCase() + this.substring(1);
+}
+
 
 extension IntExtensions on int {
   Duration get seconds => Duration(seconds: this);
