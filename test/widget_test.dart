@@ -123,11 +123,8 @@ void main() {
     expect(result, 25);
   });
 
-  testWidgets('Pattern test', (WidgetTester tester) async {
-      var result = 10.match()
-            .check((x) => x == 10, (x) => true)
-            .otherwise((x) => false)
-            .exec();
-      expect(result, true);
+  testWidgets('shuffle test', (WidgetTester tester) async {
+      var items = Sequence.generate(1, (x) => x + 1).take(20).shuffle().map((x) => x.toString()).reduce((a, b) => "$a$b");
+      print(items);
   });
 }

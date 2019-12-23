@@ -25,7 +25,7 @@ class FunctionHelper {
     }
     return (args) {
       Stopwatch sw = Stopwatch();
-      sw.start();
+      sw.start();      
       var result = operation(args);
       sw.stop();
 

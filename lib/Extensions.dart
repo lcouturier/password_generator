@@ -1,5 +1,7 @@
 import 'package:password_generator/pair.dart';
 
+import 'ArrayHelper.dart';
+
 extension FuncExtensions<T, TResult> on TResult Function(T) {
   TResult Function(T) memoize() {
     var d = new Map<T, TResult>();
@@ -39,8 +41,8 @@ extension FuncExtensions<T, TResult> on TResult Function(T) {
 }
 
 
-extension ListExtensions<T extends num> on List<T> {
-  T get sum => this.fold(0 as T, (x, y) => x + y);
+extension ListOfNumExtensions<T extends num> on List<T> {
+  T get sum => this.fold(0 as T, (x, y) => x + y);  
 }
 
 
@@ -74,5 +76,16 @@ extension FunctionExtensions<F,R> on Function() {
 extension CurryExtensions<F, S, R> on R Function(F, S) {
   R Function(S) curry(F first) {
     return (S second) => this(first, second);
+  }
+}
+
+extension ListExtensions<T> on List<T> {
+  List<T> operator -() => this.reversed.toList();  
+  List<List<T>> split(int at) => <List<T>>[this.sublist(0, at), this.sublist(at)];
+
+  List<T> shuffle() {    
+    var f = ArrayHelper.internalShuffleCore<T>();
+    var result = f(this);
+    return result;
   }
 }

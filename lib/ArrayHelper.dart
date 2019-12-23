@@ -1,13 +1,14 @@
 import 'dart:math';
 
 class ArrayHelper {
-  static var shuffleInt = ArrayHelper._internalShuffleCore<int>();
-  static var shuffleString = ArrayHelper._internalShuffleCore<String>();
+  
+  static var shuffleString = ArrayHelper.internalShuffleCore<String>();
+  static var shuffleInt = ArrayHelper.internalShuffleCore<int>();
 
   static List<String> shuffle(String value) =>
       shuffleString(ArrayHelper.toIterable(value).toList());
 
-  static List<T> Function(List<T>) _internalShuffleCore<T>() {
+  static List<T> Function(List<T>) internalShuffleCore<T>() {
     var random = new Random();
     return (args) {
       for (int x = 0; x < 100; x++) {
