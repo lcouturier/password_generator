@@ -1,14 +1,11 @@
 
 
-
-import 'package:password_generator/pair.dart';
-
 class MatchNotFoundException implements Exception {
   final String cause;
   MatchNotFoundException(this.cause);
 }
 
-extension PatternMatchExtensions on Object {
+extension PatternMatchExtensions<T> on T {
   PatternMatchContext match() {
     return PatternMatchContext(this);
   }

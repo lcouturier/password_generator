@@ -124,7 +124,10 @@ void main() {
   });
 
   testWidgets('Pattern test', (WidgetTester tester) async {
-
-
+      var result = 10.match()
+            .check((x) => x == 10, (x) => true)
+            .otherwise((x) => false)
+            .exec();
+      expect(result, true);
   });
 }
