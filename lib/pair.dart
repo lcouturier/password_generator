@@ -33,7 +33,7 @@ class Pair<T1, T2> {
     return new Pair<T1, T2>(item1, v);
   }
 
-  Pair<T1, T2> With({T1 item1 = null, T2 item2}) {
+  Pair<T1, T2> copyWith({T1 item1, T2 item2}) {
     return Pair(item1 ?? this.item1, item2 ?? this.item2);
   }
 
