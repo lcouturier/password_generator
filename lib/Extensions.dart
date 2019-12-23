@@ -56,15 +56,17 @@ extension IntExtensions on int {
 
   Duration get hours => Duration(hours: this);
 
-  Duration get days => Duration(days: this);
+  Duration get days => Duration(days: this);  
+}
 
-  int Function() into(int Function(int) operation) {
+extension TypeExtensions<F,R> on F {
+  R Function() into(R Function(F) operation) {
     return () => operation(this);
   }
 }
 
-extension FunctionExtensions on Function() {
-  int Function() into(int Function(int) operation) {
+extension FunctionExtensions<F,R> on Function() {
+  R Function() into(R Function(F) operation) {
     return () => operation(this());
   }
 }

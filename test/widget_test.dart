@@ -112,7 +112,7 @@ void main() {
 
   testWidgets('Pair Test', (WidgetTester tester) async {
     var t = Pair.of(1, 2);
-    var p = t.With(item2: 5);
+    var p = t.copyWith(item2: 5);
 
     expect(p.item1, 1);
     expect(p.item2, 5);
