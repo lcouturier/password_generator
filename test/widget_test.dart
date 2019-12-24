@@ -123,8 +123,17 @@ void main() {
     expect(result, 25);
   });
 
-  testWidgets('shuffle test', (WidgetTester tester) async {
-      var items = Sequence.generate(1, (x) => x + 1).take(20).shuffle().map((x) => x.toString()).reduce((a, b) => "$a$b");
-      print(items);
+  testWidgets('unfold test int', (WidgetTester tester) async {
+    var result = 1.generate((x) => x + 1).take(10).toList().sum;
+    print(result);
+    expect(result, 55);
   });
+
+  testWidgets('unfold test datetime', (WidgetTester tester) async {
+    var result = DateTime.now().generate((x) => x.add(Duration(days: 1))).take(10).toList();
+    for (var item in result) {
+      print(item.toLocal().toString());
+    }
+  });
+
 }

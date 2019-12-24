@@ -65,6 +65,14 @@ extension TypeExtensions<F,R> on F {
   R Function() into(R Function(F) operation) {
     return () => operation(this);
   }
+
+  Iterable<F> generate(F Function(F) operation) sync* {
+    var next = this;
+    while (true) {
+      yield next;
+      next = operation(next);
+    }
+  }
 }
 
 extension FunctionExtensions<F,R> on Function() {
