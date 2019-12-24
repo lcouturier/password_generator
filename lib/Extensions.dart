@@ -88,6 +88,7 @@ extension CurryExtensions<F, S, R> on R Function(F, S) {
 }
 
 extension ListExtensions<T> on List<T> {
+  // inverse les éléments d'une liste
   List<T> operator -() => this.reversed.toList();  
   List<List<T>> split(int at) => <List<T>>[this.sublist(0, at), this.sublist(at)];
 
